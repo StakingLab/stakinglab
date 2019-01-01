@@ -1,0 +1,26 @@
+# /etc/conf.d/labxd: config file for /etc/init.d/labxd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/stakinglab/stakinglab.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/labxd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/labxd.pid"
+
+# Where to write labxd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/labxd"
+
+# User and group to own labxd process
+#BITCOIND_USER="stakinglab"
+#BITCOIND_GROUP="stakinglab"
+
+# Path to labxd executable
+#BITCOIND_BIN="/usr/bin/labxd"
+
+# Nice value to run labxd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

@@ -1,0 +1,29 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/labx_bg.qm</file>
+        <file alias="ca">locale/labx_ca.qm</file>
+        <file alias="cs">locale/labx_cs.qm</file>
+        <file alias="da">locale/labx_da.qm</file>
+        <file alias="de">locale/labx_de.qm</file>
+        <file alias="en">locale/labx_en.qm</file>
+        <file alias="en_US">locale/labx_en_US.qm</file>
+        <file alias="es">locale/labx_es.qm</file>
+        <file alias="fi">locale/labx_fi.qm</file>
+        <file alias="fr_FR">locale/labx_fr_FR.qm</file>
+        <file alias="it">locale/labx_it.qm</file>
+        <file alias="ja">locale/labx_ja.qm</file>
+        <file alias="ko_KR">locale/labx_ko_KR.qm</file>
+        <file alias="nl">locale/labx_nl.qm</file>
+        <file alias="pl">locale/labx_pl.qm</file>
+        <file alias="pt">locale/labx_pt.qm</file>
+        <file alias="pt_BR">locale/labx_pt_BR.qm</file>
+        <file alias="ro_RO">locale/labx_ro_RO.qm</file>
+        <file alias="ru">locale/labx_ru.qm</file>
+        <file alias="sk">locale/labx_sk.qm</file>
+        <file alias="sv">locale/labx_sv.qm</file>
+        <file alias="tr">locale/labx_tr.qm</file>
+        <file alias="uk">locale/labx_uk.qm</file>
+        <file alias="zh_CN">locale/labx_zh_CN.qm</file>
+        <file alias="zh_TW">locale/labx_zh_TW.qm</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,26 @@
+[Unit]
+Description=Stakinglab Coin's distributed currency daemon
+After=network.target
+
+[Service]
+User=stakinglab
+Group=stakinglab
+
+Type=forking
+PIDFile=/var/lib/labxd/labxd.pid
+
+ExecStart=/usr/bin/labxd -daemon -pid=/var/lib/labxd/labxd.pid \
+          -conf=/etc/stakinglab/stakinglab.conf -datadir=/var/lib/labxd
+
+ExecStop=-/usr/bin/labx-cli -conf=/etc/stakinglab/stakinglab.conf \
+         -datadir=/var/lib/labxd stop
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
