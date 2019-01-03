@@ -2109,7 +2109,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
     //PoW phase redistributed fees to miner. PoS stage destroys fees.
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
-    if (block.IsProofOfWork() || Params().NetworkID() != CBaseChainParams::MAIN || chainActive.Height() >= SOFT_FORK_VERSION_120)
+    if (block.IsProofOfWork())
         nExpectedMint += nFees;
 
     //Check that the block does not overmint
@@ -5230,8 +5230,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 //       it was the one which was commented out
 int ActiveProtocol()
 {
-    // SPORK_14 is used for 70914 (v1.3.0+)
-    if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT))
+    if (chainActive.Tip()->nHeight > SOFT_FORK_VERSION_101)
         return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
 
     return MIN_PEER_PROTO_VERSION;

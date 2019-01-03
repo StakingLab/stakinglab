@@ -11,6 +11,7 @@ public:
     bool Validate(const CBlock& block, const int nBlockHeight);
 private:
     CBitcoinAddress address;
+    CBitcoinAddress address2;
     const float fPercentage{0.05};
 };
 
