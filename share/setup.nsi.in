@@ -50,9 +50,9 @@ Var StartMenuGroup
 # Installer attributes
 OutFile @abs_top_srcdir@/@PACKAGE_TARNAME@-${VERSION}-win@WINDOWS_BITS@-setup.exe
 !if "@WINDOWS_BITS@" == "64"
-InstallDir $PROGRAMFILES64\Stakinglab Coin
+InstallDir $PROGRAMFILES64\Stakinglab
 !else
-InstallDir $PROGRAMFILES\Stakinglab Coin
+InstallDir $PROGRAMFILES\Stakinglab
 !endif
 CRCCheck on
 XPStyle on
