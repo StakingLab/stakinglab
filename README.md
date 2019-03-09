@@ -7,7 +7,7 @@ Stakinglab Coin (LABX) is a sustainable cryptocurrency modeled after Satoshi Nak
 - Fast transactions featuring guaranteed zero confirmation transactions, we call it _SwiftTX_.
 - Decentralized blockchain voting providing for consensus based advancement of the current Masternode
   technology used to secure the network and provide the above features, each Masternode is secured
-  with a collateral of 2,500 LABX.
+  with a collateral of 2,000 LABX.
 
 More information at [stakinglab.io](http://www.stakinglab.io)
 

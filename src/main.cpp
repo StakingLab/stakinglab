@@ -1642,15 +1642,15 @@ int64_t GetBlockValue(int nHeight)
     else if (nHeight >= 20000 && nHeight <= 29999) nSubsidy = 3 * COIN;
     else if (nHeight >= 30000 && nHeight <= 39999) nSubsidy = 4 * COIN;
     else if (nHeight >= 40000 && nHeight <= 49999) nSubsidy = 8 * COIN;
-    else if (nHeight >= 50000 && nHeight <= 64999) nSubsidy = 6 * COIN;
-    else if (nHeight >= 65000 && nHeight <= 79999) nSubsidy = 7 * COIN;
-    else if (nHeight >= 80000 && nHeight <= 94999) nSubsidy = 8 * COIN;
-    else if (nHeight >= 95000 && nHeight <= 104999) nSubsidy = 16 * COIN;
-    else if (nHeight >= 105000 && nHeight <= 119999) nSubsidy = 18 * COIN;
-    else if (nHeight >= 120000 && nHeight <= 149999) nSubsidy = 16 * COIN;
-    else if (nHeight >= 150000 && nHeight <= 189999) nSubsidy = 12 * COIN;
-    // else if (nHeight >= 190000 && nHeight <= 499999) nSubsidy = 10 * COIN;
-    else nSubsidy = 10 * COIN;
+    else if (nHeight >= 50000 && nHeight <= 54999) nSubsidy = 6 * COIN;
+    else if (nHeight >= 55000 && nHeight <= 69999) nSubsidy = 3 * COIN;
+    else if (nHeight >= 70000 && nHeight <= 79999) nSubsidy = 1.5 * COIN;
+    else if (nHeight >= 80000 && nHeight <= 99999) nSubsidy = 2 * COIN;
+    else if (nHeight >= 100000 && nHeight <= 119999) nSubsidy = 3 * COIN;
+    else if (nHeight >= 120000 && nHeight <= 149999) nSubsidy = 4 * COIN;
+    else if (nHeight >= 150000 && nHeight <= 199999) nSubsidy = 5 * COIN;
+    else if (nHeight >= 200000 && nHeight <= 2220000) nSubsidy = 10 * COIN;
+    else nSubsidy = 0 * COIN;
 
     // Check if we reached the coin max supply.
     int64_t nMoneySupply = chainActive.Tip()->nMoneySupply;
@@ -1670,8 +1670,9 @@ int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCou
 
     if (blockValue == 0) return 0;
     else if (nHeight <= 39999) ret = blockValue * 0.85;
-    else if (nHeight >= 40000 && nHeight <= 94999) ret = blockValue * 0.75;
-    else if (nHeight >= 95000) ret = blockValue * 0.85;
+    else if (nHeight >= 40000 && nHeight < 55000) ret = blockValue * 0.75;
+    else if (nHeight >= 55000 && nHeight < 70000) ret = blockValue * 0.8;
+    else if (nHeight >= 70000) ret = blockValue * 0.85;
 
     return ret;
 }
@@ -5404,7 +5405,10 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 //       it was the one which was commented out
 int ActiveProtocol()
 {
-    return MIN_PEER_PROTO_VERSION;
+    if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT)) {
+        return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
+    }
+    return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
 }
 
 // requires LOCK(cs_vRecvMsg)
