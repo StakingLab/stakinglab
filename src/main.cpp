@@ -1850,26 +1850,6 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
         if (pvChecks)
             pvChecks->reserve(tx.vin.size());
 
-        for (CTxIn input : tx.vin) {
-            const CCoins *coins = inputs.AccessCoins(input.prevout.hash);
-
-            if (coins == NULL) continue;
-
-            for (CTxOut prevOut : coins->vout) {
-                if (prevOut.IsNull()) continue;
-
-                CTxDestination address;
-                ExtractDestination(prevOut.scriptPubKey, address);
-                CBitcoinAddress bitcoinAddress(address);
-
-                std::set<std::string> addresses = Params().BlacklistedAddresses();
-
-                if (addresses.find(bitcoinAddress.ToString()) != addresses.end()) {
-                    return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address"));
-                }
-            }
-        }
-
         // This doesn't trigger the DoS code on purpose; if it did, it would make it easier
         // for an attacker to attempt to split the network.
         if (!inputs.HaveInputs(tx))
@@ -1881,6 +1861,29 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
         int nSpendHeight = pindexPrev->nHeight + 1;
         CAmount nValueIn = 0;
         CAmount nFees = 0;
+
+        if (nSpendHeight >= Params().StartCheckingBlacklistHeight()) {
+            for (CTxIn input : tx.vin) {
+                const CCoins *coins = inputs.AccessCoins(input.prevout.hash);
+
+                if (coins == NULL) continue;
+
+                for (CTxOut prevOut : coins->vout) {
+                    if (prevOut.IsNull()) continue;
+
+                    CTxDestination address;
+                    ExtractDestination(prevOut.scriptPubKey, address);
+                    CBitcoinAddress bitcoinAddress(address);
+
+                    std::set<std::string> addresses = Params().BlacklistedAddresses();
+
+                    if (addresses.find(bitcoinAddress.ToString()) != addresses.end()) {
+                        return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address"));
+                    }
+                }
+            }
+        }
+
         for (unsigned int i = 0; i < tx.vin.size(); i++) {
             const COutPoint& prevout = tx.vin[i].prevout;
             const CCoins* coins = inputs.AccessCoins(prevout.hash);
