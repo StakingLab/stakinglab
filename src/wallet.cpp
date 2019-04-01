@@ -1571,6 +1571,9 @@ bool CWallet::SelectStakeCoins(std::set<std::pair<const CWalletTx*, unsigned int
         if (nAmountSelected + out.tx->vout[out.i].nValue > nTargetAmount)
             continue;
 
+        if (out.tx->vout[out.i].nValue < Params().MinimumStakingAmount())
+            continue;
+
         //check for min age
         if (GetAdjustedTime() - out.tx->GetTxTime() < nStakeMinAge)
             continue;

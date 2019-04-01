@@ -97,6 +97,9 @@ public:
     int64_t StartMasternodePayments() const { return nStartMasternodePayments; }
     int64_t Budget_Fee_Confirmations() const { return nBudget_Fee_Confirmations; }
     CBaseChainParams::Network NetworkID() const { return networkID; }
+    std::set<CBitcoinAddress> BlacklistedAddresses() const { return blacklistedAddresses; }
+    uint64_t StartCheckingBlacklistHeight() const { return startCheckingBlacklistHeight; }
+    CAmount MinimumStakingAmount() const { return minimumStakingAmount; }
 
 protected:
     CChainParams() {}
@@ -139,6 +142,9 @@ protected:
     std::string strMasternodePoolDummyAddress;
     int64_t nStartMasternodePayments;
     int64_t nBudget_Fee_Confirmations;
+    std::set<CBitcoinAddress> blacklistedAddresses;
+    uint64_t startCheckingBlacklistHeight;
+    CAmount minimumStakingAmount;
 };
 
 /**

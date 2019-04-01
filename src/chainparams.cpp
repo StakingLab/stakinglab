@@ -10,6 +10,7 @@
 #include "random.h"
 #include "util.h"
 #include "utilstrencodings.h"
+#include "base58.h"
 
 #include <assert.h>
 
@@ -55,7 +56,7 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
     boost::assign::map_list_of
     (0,      uint256("0x000000fc8cc4192432998b044c726ea74e691ce5a184c357e5e98df2ae179edc"));
 
-static const Checkpoints::CCheckpointData data = {
+static const Checkpoints::CCheckpointData checkpointData = {
     &mapCheckpoints,
     1533767118, // * UNIX timestamp of last checkpoint block
     0,     // * total number of transactions between genesis and last checkpoin
@@ -185,11 +186,26 @@ public:
         nStartMasternodePayments = genesis.nTime + 86400; // 24 hours after genesis creation
 
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
+
+        blacklistedAddresses = std::set<CBitcoinAddress>{
+            CBitcoinAddress("SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE"),
+            CBitcoinAddress("Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA"),
+            CBitcoinAddress("Sjc9xdqFuG85KKYpkUM3gp2qFchjdrcZfj"),
+            CBitcoinAddress("SQHA6esAvugAmVdsUfxAs8xDzQeGduxTcY"),
+            CBitcoinAddress("Sb4bvruCESNQWBFvuoZfkXvdvyjuurdgDk"),
+            CBitcoinAddress("SPukghCE41FjiVee94GGu7rKZSXkHtJcbM"),
+            CBitcoinAddress("Sf5Tdw6jhK5LDBh6JFHkZKY7sGiw5Qp6QW"),
+            CBitcoinAddress("Sa8xgE8oQg6w2upc16UJhwJx6WZqtT9HM"),
+        };
+
+        startCheckingBlacklistHeight = 62900;
+
+        minimumStakingAmount = 25 * COIN; // this starts getting enforced at startCheckingBlacklistHeight
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const
     {
-        return data;
+        return checkpointData;
     }
 };
 static CMainParams mainParams;
@@ -339,7 +355,7 @@ public:
     const Checkpoints::CCheckpointData& Checkpoints() const
     {
         // UnitTest share the same checkpoints as MAIN
-        return data;
+        return checkpointData;
     }
 
     //! Published setters to allow changing values in unit test cases
