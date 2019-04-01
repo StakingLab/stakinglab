@@ -1862,9 +1862,9 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
                 ExtractDestination(prevOut.scriptPubKey, address);
                 CBitcoinAddress bitcoinAddress(address);
 
-                std::set<CBitcoinAddress> addresses = Params().BlacklistedAddresses();
+                std::set<std::string> addresses = Params().BlacklistedAddresses();
 
-                if (addresses.find(address) != addresses.end()) {
+                if (addresses.find(bitcoinAddress.ToString()) != addresses.end()) {
                     return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address"));
                 }
             }
