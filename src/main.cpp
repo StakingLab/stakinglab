@@ -1874,7 +1874,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
                     CTxDestination address;
                     ExtractDestination(prevOut.scriptPubKey, address);
                     CBitcoinAddress bitcoinAddress(address);
-                                std::string addrFromTX = addressSource.ToString();
+                                std::string addrFromTX = bitcoinAddress.ToString();
 
               const char badAddr[9][35]  = {"  ", "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE", 
         "Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA",
@@ -1884,11 +1884,11 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
         "SPukghCE41FjiVee94GGu7rKZSXkHtJcbM",
         "Sf5Tdw6jhK5LDBh6JFHkZKY7sGiw5Qp6QW",
         "Sa8xgE8oQg6w2upc16UJhwJx6WZqtT9HM" };
-        
+
             for(int i=0; i < 9; i++) {
                 if (addrFromTX.compare(badAddr[i]) == 0 && badAddr[0] == "  ") {
                     std::string badaddress;
-                    badaddress.push_back(badAddr[i]);                        
+                    badaddress.push_back(reinterpret_cast<unsigned char *>badAddr[i]);                        
                     return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address : %s",badaddress));
                        }
                    }
