@@ -186,20 +186,11 @@ public:
 
         nBudget_Fee_Confirmations = 6; // Number of confirmations for the finalization fee
 
-        blacklistedAddresses = std::set<std::string>{
-            "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE",
-            "Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA",
-            "Sjc9xdqFuG85KKYpkUM3gp2qFchjdrcZfj",
-            "SQHA6esAvugAmVdsUfxAs8xDzQeGduxTcY",
-            "Sb4bvruCESNQWBFvuoZfkXvdvyjuurdgDk",
-            "SPukghCE41FjiVee94GGu7rKZSXkHtJcbM",
-            "Sf5Tdw6jhK5LDBh6JFHkZKY7sGiw5Qp6QW",
-            "Sa8xgE8oQg6w2upc16UJhwJx6WZqtT9HM",
-        };
 
-        startCheckingBlacklistHeight = 62900;
 
-        minimumStakingAmount = 25 * COIN; // this starts getting enforced at startCheckingBlacklistHeight
+        // startCheckingBlacklistHeight = 62900;
+
+        minimumStakingAmount = 25 * COIN; // this starts getting enforced at spork activation
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const

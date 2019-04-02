@@ -1862,7 +1862,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
         CAmount nValueIn = 0;
         CAmount nFees = 0;
 
-        if (nSpendHeight >= Params().StartCheckingBlacklistHeight()) {
+        if (IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)) {
             for (CTxIn input : tx.vin) {
                 const CCoins *coins = inputs.AccessCoins(input.prevout.hash);
 
@@ -1874,12 +1874,23 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
                     CTxDestination address;
                     ExtractDestination(prevOut.scriptPubKey, address);
                     CBitcoinAddress bitcoinAddress(address);
+                                std::string addrFromTX = bitcoinAddress.ToString();
 
-                    std::set<std::string> addresses = Params().BlacklistedAddresses();
+              const char badAddr[9][35]  = {"  ", "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE", 
+        "Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA",
+        "Sjc9xdqFuG85KKYpkUM3gp2qFchjdrcZfj",
+        "SQHA6esAvugAmVdsUfxAs8xDzQeGduxTcY",
+        "Sb4bvruCESNQWBFvuoZfkXvdvyjuurdgDk",
+        "SPukghCE41FjiVee94GGu7rKZSXkHtJcbM",
+        "Sf5Tdw6jhK5LDBh6JFHkZKY7sGiw5Qp6QW",
+        "Sa8xgE8oQg6w2upc16UJhwJx6WZqtT9HM" };
 
-                    if (addresses.find(bitcoinAddress.ToString()) != addresses.end()) {
-                        return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address"));
-                    }
+            for(int i=0; i < 9; i++) {
+                if (addrFromTX.compare(badAddr[i]) == 0 && badAddr[0] == "  ") {
+                    string badaddress(badAddr[i]); 
+                    return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address : %s",badaddress));
+                       }
+                   }
                 }
             }
         }
@@ -1891,7 +1902,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
 
             if (tx.IsCoinStake()) {
                 CAmount inputSize = coins->vout[prevout.n].nValue;
-                if (inputSize < Params().MinimumStakingAmount() && nSpendHeight >= Params().StartCheckingBlacklistHeight()) {
+                if (inputSize < Params().MinimumStakingAmount() && IsSporkActive(SPORK_15_MINSTAKE_ENFORCEMENT)) {
                     return state.Invalid(error("CheckInputs(): tried to stake with smaller than minimum amount"));
                 }
             }
@@ -5435,7 +5446,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
 //       it was the one which was commented out
 int ActiveProtocol()
 {
-    if (chainActive.Height() >= Params().StartCheckingBlacklistHeight()) {
+    if (IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)) {
         return MIN_PEER_PROTO_VERSION_AFTER_FORK;
     }
     return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
