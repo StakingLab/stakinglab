@@ -97,7 +97,7 @@ public:
     int64_t StartMasternodePayments() const { return nStartMasternodePayments; }
     int64_t Budget_Fee_Confirmations() const { return nBudget_Fee_Confirmations; }
     CBaseChainParams::Network NetworkID() const { return networkID; }
-    const char badAddr[9][35] BlacklistedAddresses() const { return blacklistedAddresses; }
+    const char[] BlacklistedAddresses() const { return blacklistedAddresses; }
     // uint64_t StartCheckingBlacklistHeight() const { return startCheckingBlacklistHeight; }
     CAmount MinimumStakingAmount() const { return minimumStakingAmount; }
 
