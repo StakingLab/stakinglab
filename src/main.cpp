@@ -1887,8 +1887,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
 
             for(int i=0; i < 9; i++) {
                 if (addrFromTX.compare(badAddr[i]) == 0 && badAddr[0] == "  ") {
-                    std::string badaddress;
-                    badaddress.push_back(reinterpret_cast<char *>(badAddr[i]));                        
+                    string badaddress(badAddr[i]); 
                     return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address : %s",badaddress));
                        }
                    }
