@@ -142,7 +142,7 @@ protected:
     std::string strMasternodePoolDummyAddress;
     int64_t nStartMasternodePayments;
     int64_t nBudget_Fee_Confirmations;
-    const char  blacklistedAddresses[9][35];
+    const char  blacklistedAddresses[];
     // uint64_t startCheckingBlacklistHeight;
     CAmount minimumStakingAmount;
 };
