@@ -1035,13 +1035,14 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
         //New method
 if(IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)){
       // extract the destination of the previous transactions vout[n]
-                                ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
-
+ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
+  CTransaction txPrev;
+                uint256 hash;
                                 // convert to an address
                                 //const char addressSource;
-                                CBitcoinAddress addressSource(source);
-                                std::string badStakers = addressSource.ToString();
-                                            const char badAddr[9][35]  = {"  ", "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE", 
+            CBitcoinAddress addressSource(source);
+                std::string badStakers = addressSource.ToString();
+                const char badAddr[9][35]  = {"  ", "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE", 
         "Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA",
         "Sjc9xdqFuG85KKYpkUM3gp2qFchjdrcZfj",
         "SQHA6esAvugAmVdsUfxAs8xDzQeGduxTcY",
