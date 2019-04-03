@@ -1,5 +1,5 @@
 ---
-name: "stakinglab-osx-1.2.1"
+name: "stakinglab-osx-1.2.2"
 enable_cache: true
 suites:
 - "xenial"
