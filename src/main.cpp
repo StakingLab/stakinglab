@@ -1035,9 +1035,10 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
         //New method
 if(IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)){
       // extract the destination of the previous transactions vout[n]
-ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
-  CTransaction txPrev;
+        CTransaction txPrev;
                 uint256 hash;
+ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
+
                                 // convert to an address
                                 //const char addressSource;
             CBitcoinAddress addressSource(source);
