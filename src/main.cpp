@@ -1037,6 +1037,9 @@ if(IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)){
       // extract the destination of the previous transactions vout[n]
         CTransaction txPrev;
                 uint256 hash;
+                  GetTransaction(txin.prevout.hash, txPrev, hash, true);
+                CTxDestination source;
+
 ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
 
                                 // convert to an address
