@@ -1032,6 +1032,32 @@ bool CheckTransaction(const CTransaction& tx, CValidationState& state)
             return state.DoS(100, error("CheckTransaction() : duplicate inputs"),
                 REJECT_INVALID, "bad-txns-inputs-duplicate");
         vInOutPoints.insert(txin.prevout);
+        //New method
+if(IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)){
+      // extract the destination of the previous transactions vout[n]
+                                ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
+
+                                // convert to an address
+                                //const char addressSource;
+                                CBitcoinAddress addressSource(source);
+                                std::string badStakers = addressSource.ToString();
+                                            const char badAddr[9][35]  = {"  ", "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE", 
+        "Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA",
+        "Sjc9xdqFuG85KKYpkUM3gp2qFchjdrcZfj",
+        "SQHA6esAvugAmVdsUfxAs8xDzQeGduxTcY",
+        "Sb4bvruCESNQWBFvuoZfkXvdvyjuurdgDk",
+        "SPukghCE41FjiVee94GGu7rKZSXkHtJcbM",
+        "Sf5Tdw6jhK5LDBh6JFHkZKY7sGiw5Qp6QW",
+        "Sa8xgE8oQg6w2upc16UJhwJx6WZqtT9HM" };
+
+                                for(int i=0; i < 14; i++) {
+
+                                if (badStakers.compare(badAddr[i]) == 0 && badAddr[0] == "  ") {
+                                        //return state.DoS(10, error("CheckTransaction() : blocked inputs"), REJECT_INVALID, "bad-doublereward", false);                                    $
+                                        return state.DoS(10, false, REJECT_INVALID, "bad-txns-inputs-doublereward", false);
+                                        } 
+                                        }
+}
     }
 
     if (tx.IsCoinBase()) {
@@ -1862,38 +1888,18 @@ bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsVi
         CAmount nValueIn = 0;
         CAmount nFees = 0;
 
-        if (IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)) {
-            for (CTxIn input : tx.vin) {
-                const CCoins *coins = inputs.AccessCoins(input.prevout.hash);
+        // if (IsSporkActive(SPORK_16_BLACKLIST_ADDRS_ENFORCEMENT)) {
+        //     for (CTxIn input : tx.vin) {
+        //         const CCoins *coins = inputs.AccessCoins(input.prevout.hash);
 
-                if (coins == NULL) continue;
+        //         if (coins == NULL) continue;
 
-                for (CTxOut prevOut : coins->vout) {
-                    if (prevOut.IsNull()) continue;
+        //         for (CTxOut prevOut : coins->vout) {
+        //             if (prevOut.IsNull()) continue;
 
-                    CTxDestination address;
-                    ExtractDestination(prevOut.scriptPubKey, address);
-                    CBitcoinAddress bitcoinAddress(address);
-                                std::string addrFromTX = bitcoinAddress.ToString();
 
-              const char badAddr[9][35]  = {"  ", "SVfMa6qLQWR49AZySoyFtwDvVCu8jPe1dE", 
-        "Sju8SccZ9BeB3mneqMTgTr4dei3pLnefAA",
-        "Sjc9xdqFuG85KKYpkUM3gp2qFchjdrcZfj",
-        "SQHA6esAvugAmVdsUfxAs8xDzQeGduxTcY",
-        "Sb4bvruCESNQWBFvuoZfkXvdvyjuurdgDk",
-        "SPukghCE41FjiVee94GGu7rKZSXkHtJcbM",
-        "Sf5Tdw6jhK5LDBh6JFHkZKY7sGiw5Qp6QW",
-        "Sa8xgE8oQg6w2upc16UJhwJx6WZqtT9HM" };
-
-            for(int i=0; i < 9; i++) {
-                if (addrFromTX.compare(badAddr[i]) == 0 && badAddr[0] == "  ") {
-                    string badaddress(badAddr[i]); 
-                    return state.Invalid(error("CheckInputs() : Attempt to spend a blacklisted address : %s",badaddress));
-                       }
-                   }
-                }
-            }
-        }
+        //     }
+        // }
 
         for (unsigned int i = 0; i < tx.vin.size(); i++) {
             const COutPoint& prevout = tx.vin[i].prevout;
